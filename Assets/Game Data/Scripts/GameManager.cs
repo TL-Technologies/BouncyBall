@@ -33,7 +33,7 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
-
+        Application.targetFrameRate = 60;
         player = FindObjectOfType<Player>();
         bestScore = PlayerPrefs.GetInt("bestScore", 0);
     }
@@ -43,8 +43,6 @@ public class GameManager : Singleton<GameManager>
         scoreText.text = score.ToString();
         if (scoreAnim.isActiveAndEnabled)
             scoreAnim.SetTrigger("Up");
-
-        Advertisements.Instance.ShowBanner(BannerPosition.BOTTOM);
     }
 
     public void PlayerFailed()
@@ -81,11 +79,7 @@ public class GameManager : Singleton<GameManager>
                 stars[i].color = inactiveStars;
         }
     }
-
-    public void Revive()
-    {
-        Advertisements.Instance.ShowRewardedVideo(ReviveSucceed);
-    }
+    
 
     void ReviveSucceed(bool completed)
     {
@@ -99,8 +93,6 @@ public class GameManager : Singleton<GameManager>
 
     public void StartGame()
     {
-        Advertisements.Instance.HideBanner();
-
         if (CurrentGameState == GameState.Menu)
         {
             star = 0;
@@ -143,7 +135,6 @@ public class GameManager : Singleton<GameManager>
     public void NoThanks()
     {
         reviveAnim.SetTrigger("No");
-        Advertisements.Instance.ShowInterstitial();
     }
 
     public void Menu()
